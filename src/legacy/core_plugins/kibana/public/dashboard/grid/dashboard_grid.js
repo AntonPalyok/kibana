@@ -27,7 +27,7 @@ import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 
 import { PanelUtils } from '../panel/panel_utils';
-import { DashboardViewMode } from '../dashboard_view_mode';
+import { ViewMode } from 'ui/embeddable';
 import { DashboardPanel } from '../panel';
 import { toastNotifications } from 'ui/notify';
 import {
@@ -236,6 +236,7 @@ class DashboardGridUi extends React.Component {
             embeddableFactory={this.embeddableFactoryMap[panel.type]}
             onPanelFocused={this.onPanelFocused}
             onPanelBlurred={this.onPanelBlurred}
+            container={this.props.container}
           />
         </div>
       );
@@ -248,7 +249,7 @@ class DashboardGridUi extends React.Component {
     }
 
     const { dashboardViewMode, maximizedPanelId, useMargins } = this.props;
-    const isViewMode = dashboardViewMode === DashboardViewMode.VIEW;
+    const isViewMode = dashboardViewMode === ViewMode.VIEW;
     return (
       <ResponsiveSizedGrid
         isViewMode={isViewMode}
@@ -266,10 +267,11 @@ class DashboardGridUi extends React.Component {
 DashboardGridUi.propTypes = {
   panels: PropTypes.object.isRequired,
   getEmbeddableFactory: PropTypes.func.isRequired,
-  dashboardViewMode: PropTypes.oneOf([DashboardViewMode.EDIT, DashboardViewMode.VIEW]).isRequired,
+  dashboardViewMode: PropTypes.oneOf([ViewMode.EDIT, ViewMode.VIEW]).isRequired,
   onPanelsUpdated: PropTypes.func.isRequired,
   maximizedPanelId: PropTypes.string,
   useMargins: PropTypes.bool.isRequired,
+  container: PropTypes.object,
 };
 
 export const DashboardGrid = injectI18n(DashboardGridUi);

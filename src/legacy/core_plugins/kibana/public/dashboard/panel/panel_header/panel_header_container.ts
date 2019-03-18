@@ -19,11 +19,11 @@
 
 import { connect } from 'react-redux';
 
-import { Embeddable } from 'ui/embeddable';
-import { DashboardViewMode } from '../../dashboard_view_mode';
+import { ViewMode } from 'ui/embeddable';
 import { PanelHeader } from './panel_header';
 
 import { CoreKibanaState } from '../../../selectors';
+import { DashboardContainer, DashboardEmbeddable } from '../../embeddables/dashboard_container';
 import {
   getEmbeddableTitle,
   getFullScreenMode,
@@ -36,7 +36,8 @@ import {
 
 export interface PanelHeaderContainerOwnProps {
   panelId: PanelId;
-  embeddable?: Embeddable;
+  embeddable?: DashboardEmbeddable;
+  container: DashboardContainer;
 }
 
 interface PanelHeaderContainerStateProps {
@@ -55,8 +56,7 @@ const mapStateToProps = (
   return {
     title: panel.title === undefined ? embeddableTitle : panel.title,
     isExpanded: getMaximizedPanelId(dashboard) === panelId,
-    isViewOnlyMode:
-      getFullScreenMode(dashboard) || getViewMode(dashboard) === DashboardViewMode.VIEW,
+    isViewOnlyMode: getFullScreenMode(dashboard) || getViewMode(dashboard) === ViewMode.VIEW,
     hidePanelTitles: getHidePanelTitles(dashboard),
   };
 };

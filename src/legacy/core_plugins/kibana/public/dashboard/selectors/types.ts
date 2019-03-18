@@ -17,11 +17,11 @@
  * under the License.
  */
 
-import { EmbeddableMetadata, Filters, Query, RefreshConfig, TimeRange } from 'ui/embeddable';
-import { DashboardViewMode } from '../dashboard_view_mode';
+import { Filters, Query, RefreshConfig, TimeRange } from 'ui/embeddable';
+import { ViewMode } from 'ui/embeddable/types';
 
 export interface ViewState {
-  readonly viewMode: DashboardViewMode;
+  readonly viewMode: ViewMode;
   readonly isFullScreenMode: boolean;
   readonly maximizedPanelId?: string;
   readonly visibleContextMenuPanelId?: string;
@@ -55,7 +55,10 @@ export interface PanelState {
 }
 
 export interface EmbeddableReduxState {
-  readonly metadata?: EmbeddableMetadata;
+  readonly editUrl?: string;
+  readonly indexPatterns?: object[];
+  readonly type?: string;
+  readonly title?: string;
   readonly error?: string | object;
   readonly initialized: boolean;
   readonly stagedFilter?: object;

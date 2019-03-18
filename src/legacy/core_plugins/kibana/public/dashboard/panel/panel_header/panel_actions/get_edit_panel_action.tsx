@@ -22,15 +22,14 @@ import React from 'react';
 import { EuiIcon } from '@elastic/eui';
 import { i18n } from '@kbn/i18n';
 
-import { ContextMenuAction } from 'ui/embeddable';
-import { DashboardViewMode } from '../../../dashboard_view_mode';
+import { ContextMenuAction, ViewMode } from 'ui/embeddable';
 
 /**
  *
  * @return {ContextMenuAction}
  */
 export function getEditPanelAction() {
-  return new ContextMenuAction(
+  return new ContextMenuAction<{ viewMode: ViewMode }, { editUrl?: string }>(
     {
       displayName: i18n.translate('kbn.dashboard.panel.editPanel.displayName', {
         defaultMessage: 'Edit visualization',
@@ -40,12 +39,14 @@ export function getEditPanelAction() {
     },
     {
       icon: <EuiIcon type="pencil" />,
-      isDisabled: ({ embeddable }) =>
-        !embeddable || !embeddable.metadata || !embeddable.metadata.editUrl,
-      isVisible: ({ containerState }) => containerState.viewMode === DashboardViewMode.EDIT,
+      isDisabled: ({ embeddable }) => {
+        const editUrl = embeddable.getOutput().editUrl;
+        return !!editUrl;
+      },
+      isVisible: ({ containerState }) => containerState.viewMode === ViewMode.EDIT,
       getHref: ({ embeddable }) => {
-        if (embeddable && embeddable.metadata.editUrl) {
-          return embeddable.metadata.editUrl;
+        if (embeddable && embeddable.getOutput().editUrl) {
+          return embeddable.getOutput().editUrl;
         }
       },
     }

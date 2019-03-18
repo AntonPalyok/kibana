@@ -21,11 +21,11 @@ import _ from 'lodash';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { mountWithIntl } from 'test_utils/enzyme_helpers';
+import { ViewMode } from 'ui/embeddable';
 import { store } from '../../store';
 // @ts-ignore: implicit for any JS file
 import { getEmbeddableFactoryMock } from '../__tests__/get_embeddable_factories_mock';
 import { setPanels, updateTimeRange, updateViewMode } from '../actions';
-import { DashboardViewMode } from '../dashboard_view_mode';
 import { PanelError } from '../panel/panel_error';
 import {
   DashboardPanelContainer,
@@ -41,7 +41,7 @@ function getProps(props = {}): DashboardPanelContainerOwnProps {
 }
 
 beforeAll(() => {
-  store.dispatch(updateViewMode(DashboardViewMode.EDIT));
+  store.dispatch(updateViewMode(ViewMode.EDIT));
   store.dispatch(updateTimeRange({ to: 'now', from: 'now-15m' }));
   store.dispatch(
     setPanels({

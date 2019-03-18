@@ -36,7 +36,7 @@ import {
   updateTimeRange,
   updateViewMode,
 } from '../../actions';
-import { DashboardViewMode } from '../../dashboard_view_mode';
+import { ViewMode } from 'ui/embeddable';
 import { PanelHeaderContainer, PanelHeaderContainerOwnProps } from './panel_header_container';
 
 function getProps(props = {}): PanelHeaderContainerOwnProps {
@@ -50,7 +50,7 @@ let component: ReactWrapper;
 
 beforeAll(() => {
   store.dispatch(updateTimeRange({ to: 'now', from: 'now-15m' }));
-  store.dispatch(updateViewMode(DashboardViewMode.EDIT));
+  store.dispatch(updateViewMode(ViewMode.EDIT));
   store.dispatch(
     setPanels({
       foo1: {

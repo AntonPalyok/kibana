@@ -20,7 +20,6 @@
 import { i18n } from '@kbn/i18n';
 import _ from 'lodash';
 
-import { DashboardViewMode } from './dashboard_view_mode';
 import { FilterUtils } from './lib/filter_utils';
 import { PanelUtils } from './panel/panel_utils';
 import { store } from '../store';
@@ -59,7 +58,7 @@ import {
   getQuery,
   getFilters,
 } from '../selectors';
-
+import { ViewMode } from 'ui/embeddable';
 /**
  * Dashboard state manager handles connecting angular and redux state between the angular and react portions of the
  * app. There are two "sources of truth" that need to stay in sync - AppState (aka the `_a` portion of the url) and
@@ -451,24 +450,24 @@ export class DashboardStateManager {
 
   /**
    *
-   * @returns {DashboardViewMode}
+   * @returns {ViewMode}
    */
   getViewMode() {
-    return this.hideWriteControls ? DashboardViewMode.VIEW : this.appState.viewMode;
+    return this.hideWriteControls ? ViewMode.VIEW : this.appState.viewMode;
   }
 
   /**
    * @returns {boolean}
    */
   getIsViewMode() {
-    return this.getViewMode() === DashboardViewMode.VIEW;
+    return this.getViewMode() === ViewMode.VIEW;
   }
 
   /**
    * @returns {boolean}
    */
   getIsEditMode() {
-    return this.getViewMode() === DashboardViewMode.EDIT;
+    return this.getViewMode() === ViewMode.EDIT;
   }
 
   /**
@@ -605,7 +604,7 @@ export class DashboardStateManager {
   }
 
   /**
-   * @param newMode {DashboardViewMode}
+   * @param newMode {ViewMode}
    */
   switchViewMode(newMode) {
     this.appState.viewMode = newMode;

@@ -23,7 +23,7 @@ import { ViewActions, ViewActionTypeKeys } from '../actions';
 
 import { Filters, Query, RefreshConfig, TimeRange } from 'ui/embeddable';
 import { QueryLanguageType } from 'ui/embeddable/types';
-import { DashboardViewMode } from '../dashboard_view_mode';
+import { ViewMode } from 'ui/embeddable';
 import { PanelId, ViewState } from '../selectors';
 
 const closeContextMenu = (view: ViewState) => ({
@@ -81,7 +81,7 @@ const updateUseMargins = (view: ViewState, useMargins: boolean) => ({
   useMargins,
 });
 
-const updateViewMode = (view: ViewState, viewMode: DashboardViewMode) => ({
+const updateViewMode = (view: ViewState, viewMode: ViewMode) => ({
   ...view,
   viewMode,
 });
@@ -95,7 +95,7 @@ export const viewReducer: Reducer<ViewState> = (
     timeRange: { to: 'now', from: 'now-15m' },
     refreshConfig: { isPaused: true, interval: 0 },
     useMargins: true,
-    viewMode: DashboardViewMode.VIEW,
+    viewMode: ViewMode.VIEW,
   },
   action
 ): ViewState => {

@@ -24,11 +24,11 @@ import _ from 'lodash';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { mountWithIntl } from 'test_utils/enzyme_helpers';
+import { ViewMode } from 'ui/embeddable';
 import { store } from '../../store';
 // @ts-ignore: implicit any for JS file
 import { getEmbeddableFactoryMock } from '../__tests__/get_embeddable_factories_mock';
 import { embeddableIsInitialized, setPanels, updateTimeRange, updateViewMode } from '../actions';
-import { DashboardViewMode } from '../dashboard_view_mode';
 import { DashboardPanel, DashboardPanelUiProps } from './dashboard_panel';
 
 import { PanelError } from './panel_error';
@@ -46,7 +46,7 @@ function getProps(props = {}): DashboardPanelUiProps {
 
 beforeAll(() => {
   store.dispatch(updateTimeRange({ to: 'now', from: 'now-15m' }));
-  store.dispatch(updateViewMode(DashboardViewMode.EDIT));
+  store.dispatch(updateViewMode(ViewMode.EDIT));
   store.dispatch(
     setPanels({
       foo1: {

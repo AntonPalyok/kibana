@@ -21,12 +21,7 @@ import { i18n } from '@kbn/i18n';
 import { connect } from 'react-redux';
 import { Action } from 'redux-actions';
 import { ThunkDispatch } from 'redux-thunk';
-import {
-  ContainerState,
-  EmbeddableFactory,
-  EmbeddableMetadata,
-  EmbeddableState,
-} from 'ui/embeddable';
+import { EmbeddableFactory, ViewMode } from 'ui/embeddable';
 import { CoreKibanaState } from '../../selectors';
 import {
   deletePanel,
@@ -36,7 +31,10 @@ import {
   embeddableIsInitializing,
   embeddableStateChanged,
 } from '../actions';
-import { DashboardViewMode } from '../dashboard_view_mode';
+import {
+  DashboardEmbeddableInput,
+  DashboardEmbeddableOutput,
+} from '../embeddables/dashboard_container';
 import {
   getContainerState,
   getEmbeddable,
@@ -53,13 +51,13 @@ import { DashboardPanel } from './dashboard_panel';
 
 export interface DashboardPanelContainerOwnProps {
   panelId: PanelId;
-  embeddableFactory: EmbeddableFactory;
+  embeddableFactory: EmbeddableFactory<DashboardEmbeddableInput, DashboardEmbeddableOutput>;
 }
 
 interface DashboardPanelContainerStateProps {
   error?: string | object;
   viewOnlyMode: boolean;
-  containerState: ContainerState;
+  containerState: DashboardEmbeddableInput;
   initialized: boolean;
   panel: PanelState;
   lastReloadRequestTime?: number;
@@ -67,10 +65,10 @@ interface DashboardPanelContainerStateProps {
 
 export interface DashboardPanelContainerDispatchProps {
   destroy: () => void;
+  embeddableIsInitialized: (data: any) => void;
   embeddableIsInitializing: () => void;
-  embeddableIsInitialized: (metadata: EmbeddableMetadata) => void;
-  embeddableStateChanged: (embeddableState: EmbeddableState) => void;
   embeddableError: (errorMessage: EmbeddableErrorAction) => void;
+  embeddableStateChanged: (embeddableState: DashboardEmbeddableOutput) => void;
 }
 
 const mapStateToProps = (
@@ -92,7 +90,7 @@ const mapStateToProps = (
   const initialized = embeddable ? getEmbeddableInitialized(dashboard, panelId) : false;
   return {
     error,
-    viewOnlyMode: getFullScreenMode(dashboard) || getViewMode(dashboard) === DashboardViewMode.VIEW,
+    viewOnlyMode: getFullScreenMode(dashboard) || getViewMode(dashboard) === ViewMode.VIEW,
     containerState: getContainerState(dashboard, panelId),
     initialized,
     panel: getPanel(dashboard, panelId),
@@ -105,10 +103,10 @@ const mapDispatchToProps = (
   { panelId }: DashboardPanelContainerOwnProps
 ): DashboardPanelContainerDispatchProps => ({
   destroy: () => dispatch(deletePanel(panelId)),
+  embeddableIsInitialized: (data: any) =>
+    dispatch(embeddableIsInitialized({ panelId, metadata: data })),
   embeddableIsInitializing: () => dispatch(embeddableIsInitializing(panelId)),
-  embeddableIsInitialized: (metadata: EmbeddableMetadata) =>
-    dispatch(embeddableIsInitialized({ panelId, metadata })),
-  embeddableStateChanged: (embeddableState: EmbeddableState) =>
+  embeddableStateChanged: (embeddableState: DashboardEmbeddableOutput) =>
     dispatch(embeddableStateChanged({ panelId, embeddableState })),
   embeddableError: (errorMessage: EmbeddableErrorAction) =>
     dispatch(embeddableError({ panelId, error: errorMessage })),

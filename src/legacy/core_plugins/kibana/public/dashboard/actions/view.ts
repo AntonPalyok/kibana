@@ -18,9 +18,8 @@
  */
 
 import { createAction } from 'redux-actions';
-import { Filters, Query, RefreshConfig, TimeRange } from 'ui/embeddable';
+import { Filters, Query, RefreshConfig, TimeRange, ViewMode } from 'ui/embeddable';
 import { KibanaAction } from '../../selectors/types';
-import { DashboardViewMode } from '../dashboard_view_mode';
 import { PanelId } from '../selectors';
 
 export enum ViewActionTypeKeys {
@@ -39,7 +38,7 @@ export enum ViewActionTypeKeys {
 }
 
 export interface UpdateViewModeAction
-  extends KibanaAction<ViewActionTypeKeys.UPDATE_VIEW_MODE, DashboardViewMode> {}
+  extends KibanaAction<ViewActionTypeKeys.UPDATE_VIEW_MODE, ViewMode> {}
 
 export interface SetVisibleContextMenuPanelIdAction
   extends KibanaAction<ViewActionTypeKeys.SET_VISIBLE_CONTEXT_MENU_PANEL_ID, PanelId> {}
